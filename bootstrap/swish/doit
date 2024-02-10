@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#export SSL_CERT_DIR=/Applications/XAMPP/htdocs/app/slim/bootstrap/swish
+export SSL_CERT_DIR=.
+export SSL_CERT_FILE=$SSL_CERT_DIR/Swish_Merchant_TestCertificate_1231181189.p12
+export SSL_CACERT_FILE=$SSL_CERT_DIR/Swish_TLS_RootCA.pem
+
+echo '--------Trying curl---------'
+ls -l $SSL_CERT_FILE
+ls -l $SSL_CACERT_FILE
+
+curl -S -i \
+--cert $SSL_CERT_FILE:swish \
+--cert-type p12 \
+--cacert $SSL_CACERT_FILE \
+--tlsv1.1 \
+--header "Content-Type:application/json" \
+https://mss.cpc.getswish.net/swish-cpcapi/api/v1/paymentrequests \
+--data '{ "payeePaymentReference" : "0123456789", "callbackUrl" :"https://nyasidan.tangokompaniet.com", "payerAlias" : "46733780749","payeeAlias" : "1231181189", "amount" : "100", "currency" : "SEK","message" : "Kingston USB Flash Drive 8 GB" }'
